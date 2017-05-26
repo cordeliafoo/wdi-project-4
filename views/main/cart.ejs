@@ -1,0 +1,109 @@
+x`<% layout('layout') -%>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <% if (message.length > 0) { %>
+        <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismmiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        <%= message %>
+        </div>
+        <% } %>
+
+        <% for (var i = 0; i < foundCart.items.length; i++) { %>
+          <div class="list-group">
+          <span class="list-group-item">
+          <div class="row">
+          <div class="col-md-3">
+          <span><img class="product-image" src="<%= foundCart.items[i].item.image %>"></span>
+          </div>
+
+          <div class="col-md-6">
+          <p class="list-group-item-heading"><%= foundCart.items[i].item.name %></p>
+          </div>
+          <div class="col-md-3">
+          <p><%= foundCart.items[i].quantity %></p>
+          <p><%= foundCart.items[i].price %></p>
+
+          <form method="post" action="/remove">
+          <% /* hidden input field stores a default value */ %>
+          <input type="hidden" name="item" value="<%= foundCart.items[i]._id %>">
+          <input type="hidden" name="price" value="<%= foundCart.items[i].price %>">
+          <button type="submit" type="button">Remove</button>
+          </form>
+          </div>
+
+          </div>
+          </span>
+          </div>
+          <% } %>
+        </div>
+
+        <div class="col-lg-3">
+          <div class="list-group">
+            <span class="list-group-item">
+              <h4>Total: <span>$<%= foundCart.total %></span></h4>
+              <div class="form-group">
+                <input type="hidden" value="<%= foundCart.total%>">
+                <button type="button" class='btn btn-info btn-lg' name="button" data-toggle='modal' data-target='#myModal'>Pay with Stripe</button>
+              </form>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Pay with Stripe</h4>
+            </div>
+            <div class="modal-body">
+
+              <div class="container">
+                <div class="row">
+                  <!-- You can make it whatever width you want. I'm making it full width
+                  on <= small devices and 4/12 page width on >= medium devices -->
+                  <div class="col-xs-12 col-md-4">
+
+                    <form action="/payment" method="post" id="payment-form">
+                      <input type="hidden" name="stripeMoney" value="<%= foundCart.total%>">
+                          <div class="form-row">
+                            <label for="card-element">
+                              Credit or debit card
+                            </label>
+                            <div id="card-element">
+                              <!-- a Stripe Element will be inserted here. -->
+                            </div>
+
+                            <!-- Used to display Element errors -->
+                            <div id="card-errors" role="alert"></div>
+                          </div>
+                          <button>Submit Payment $<%= foundCart.total %></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MODAL ENDS HERE -->
+
+      <div class="row">
+        <div class="col-lg-2 col-md-offset-6">
+          <div class="text-center" id='loading'>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>

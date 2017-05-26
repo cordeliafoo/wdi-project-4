@@ -1,0 +1,25 @@
+body{
+  padding-top: 100px;
+  font-family: 'Inconsolata', monospace;
+}
+
+
+/*#navbar-gap{
+  margin-top: -5%;
+}*/
+
+
+.jumbotron {
+    background-image: url("../images/backgroundImage_1.png");
+    margin-bottom: 0;`enter code here`
+    min-height: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+
+.product-image{
+  max-width: 100%;
+}
