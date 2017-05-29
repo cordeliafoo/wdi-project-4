@@ -18,8 +18,8 @@ var UserSchema = new mongoose.Schema({
     paid: {type: Number, default: 0},
     item: {type: Schema.Types.ObjectId, ref: 'Product'},
     quantity: {type: Number, default: 1}
-  }]
-
+  }],
+  isAdmin: {type: Boolean, default: false}
 })
 
 // hash password before we save it to database

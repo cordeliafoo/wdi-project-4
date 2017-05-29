@@ -147,7 +147,7 @@ router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
 })
 
 // post data to server: push product into user's cart
-router.post('/product/:product_id', function (req, res, next) {
+router.post('/product/:product_id', passportConfig.isAuthenticated, function (req, res, next) {
   Cart.findOne({owner: req.user._id}, function (err, cart) {
     console.log(req.body)
     cart.items.push({
@@ -164,7 +164,7 @@ router.post('/product/:product_id', function (req, res, next) {
 })
 
 // send data to server: remove product from cart
-router.post('/remove', function (req, res, next) {
+router.post('/remove', passportConfig.isAuthenticated, function (req, res, next) {
   Cart.findOne({owner: req.user._id}, function (err, foundCart) {
     if (err) return next()
     // pull operator removes from an existing array all instances of a value or values that match a specified condition
@@ -180,7 +180,7 @@ router.post('/remove', function (req, res, next) {
 })
 
 // send data to server: payment route
-router.post('/payment', function (req, res, next) {
+router.post('/payment', passportConfig.isAuthenticated, function (req, res, next) {
   var stripeToken = req.body.stripeToken
   var currentCharges = Math.round(req.body.stripeMoney * 100)
   stripe.customers.create({

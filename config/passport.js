@@ -75,11 +75,23 @@ passport.use(new FacebookStrategy(secret.facebook, function (token, refreshToken
   })
 }))
 
-// custom function to validate
+// custom function to validate user
 exports.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   }
   req.flash('errors', 'Sorry please Login or Sign Up to view page ')
+  res.redirect('/')``
+}
+
+exports.isAdmin = function (req, res, next) {
+    // if user is authenticated in the session, carry on
+  if (req.isAuthenticated()) {
+       // if user is admin, go next
+    if (req.user.isAdmin) {
+      return next()
+    }
+  }
+  req.flash('errors', 'Sorry you do not have administrative rights ')
   res.redirect('/')
 }
