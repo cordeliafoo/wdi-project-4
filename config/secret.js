@@ -1,6 +1,6 @@
 module.exports = {
   database: 'mongodb://shirongfoo:password@ds149511.mlab.com:49511/wdi-project-4-shopping-cart',
-  port: 4000,
+  port: process.env.PORT || 4000,
   secretKey: 'secret',
   facebook: {
     // process.ENV is a global object
