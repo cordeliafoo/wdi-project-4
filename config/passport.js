@@ -80,5 +80,6 @@ exports.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   }
-  res.redirect('/loginMessage')
+  req.flash('errors', 'Sorry please Login or Sign Up to view page ')
+  res.redirect('/')
 }

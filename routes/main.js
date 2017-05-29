@@ -8,6 +8,7 @@ var passport = require('passport')
 var User = require('../models/user')
 var Product = require('../models/product')
 var Cart = require('../models/cart')
+var passportConfig = require('../config/passport')
 
 // function to paginate mongoose query
 function paginate (req, res, next) {
@@ -49,10 +50,9 @@ router.get('/', function (req, res, next) {
   if (req.user) {
     paginate(req, res, next)
   } else {
-    res.render('main/home')
+    res.render('main/home', {message: req.flash('errors') })
   }
 })
-
 
 router.get('/page/:page', function (req, res, next) {
   paginate(req, res, next)
@@ -60,12 +60,14 @@ router.get('/page/:page', function (req, res, next) {
 
 // post data to server: search queries
 router.post('/search', function (req, res, next) {
-  res.redirect('/search?q=' + req.body.q)
+  res.redirect('/search?q=' + req.body.search_term_nav_bar)
   // q is the ?q=blahblahblah part
 })
 
 // get data from server: results from search query
 router.get('/search', function (req, res, next) {
+  // /search?q=blahblahblah
+  // req.query.q refers to blahblahblah
   if (req.query.q) {
     Product.search({
       query_string: {query: req.query.q}
@@ -79,29 +81,12 @@ router.get('/search', function (req, res, next) {
         data: data
       })
     })
+  } else {
+    res.redirect('/')
   }
 })
 
-
-router.post('/product/:product_id', function (req, res, next) {
-  Cart.findOne({owner: req.user._id}, function (err, cart) {
-    console.log(req.body)
-    cart.items.push({
-      item: req.body.product_id,
-      price: parseFloat(req.body.priceValue),
-      quantity: parseInt(req.body.quantity)
-    })
-    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2)
-    cart.save(function (err) {
-      if (err) return next(err)
-      res.redirect('/cart')
-    })
-  })
-})
-
-
-
-// get data from server: routes to show all products
+// get data from server: routes to show ALL product from category (params :id here refers to the category productS belong to)
 router.get('/products/:id', function (req, res, next) {
   Product
   .find({category: req.params.id})
@@ -132,7 +117,7 @@ router.get('/products/:id', function (req, res, next) {
   })
 })
 
-// get data from server: routes to show one product
+// get data from server: routes to show one product from category (params :id here refers to the category product belongs to)
 router.get('/product/:id', function (req, res, next) {
   Product.findById({_id: req.params.id}, function (err, product) {
     console.log('product is ' + product)
@@ -144,7 +129,7 @@ router.get('/product/:id', function (req, res, next) {
 })
 
 // get data from server: find cart of user that is logged in.
-router.get('/cart', function (req, res, next) {
+router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
   console.log(req.body)
   Cart
   .findOne({owner: req.user._id})
@@ -157,6 +142,23 @@ router.get('/cart', function (req, res, next) {
     res.render('main/cart', {
       foundCart: foundCart,
       message: req.flash('remove')
+    })
+  })
+})
+
+// post data to server: push product into user's cart
+router.post('/product/:product_id', function (req, res, next) {
+  Cart.findOne({owner: req.user._id}, function (err, cart) {
+    console.log(req.body)
+    cart.items.push({
+      item: req.body.product_id,
+      price: parseFloat(req.body.priceValue),
+      quantity: parseInt(req.body.quantity)
+    })
+    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2)
+    cart.save(function (err) {
+      if (err) return next(err)
+      res.redirect('/cart')
     })
   })
 })

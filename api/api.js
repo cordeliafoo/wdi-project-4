@@ -9,7 +9,7 @@ var Product = require('../models/product')
 router.post('/search', function (req, res, next) {
   console.log(req.body.search_term);
   Product.search({
-    // search_term is the name of the input of the main search bar over in main.js
+    // search_term is the name of the input of the ajax search bar over in main.js
     query_string: {query: req.body.search_term}
   }, function (err, results) {
     if (err) return next(err)
