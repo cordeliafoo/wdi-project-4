@@ -13,14 +13,14 @@ var flash = require('express-flash')
 // MongoStore library depends on session library
 var MongoStore = require('connect-mongo/es5')(session)
 var passport = require('passport')
-var deepPopulate = require('mongoose-deep-populate')(mongoose);
-
+var deepPopulate = require('mongoose-deep-populate')(mongoose)
 
 // require my own files
 var secret = require('./config/secret')
 var User = require('./models/user')
 var Category = require('./models/category')
 var cartLength = require('./middleware/middleware')
+
 
 var app = express()
 
@@ -58,7 +58,6 @@ app.use(function (req, res, next) {
   })
 })
 app.use(cartLength)
-
 
 // set engine
 app.engine('ejs', ejsMate)
