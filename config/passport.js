@@ -81,7 +81,7 @@ exports.isAuthenticated = function (req, res, next) {
     return next()
   }
   req.flash('errors', 'Sorry please Login or Sign Up to view page ')
-  res.redirect('/')``
+  res.redirect('/')
 }
 
 exports.isAdmin = function (req, res, next) {
@@ -92,6 +92,8 @@ exports.isAdmin = function (req, res, next) {
       return next()
     }
   }
+
+  // res.send('redirect')
   req.flash('errors', 'Sorry you do not have administrative rights ')
   res.redirect('/')
 }
