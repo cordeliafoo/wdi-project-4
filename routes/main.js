@@ -133,7 +133,6 @@ router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
   })
   .exec(function (err, foundCart) {
     console.log(foundCart)
-    if (err) return next(err)
     res.render('main/cart', {
       foundCart: foundCart,
       message: req.flash('remove')

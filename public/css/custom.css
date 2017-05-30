@@ -1,7 +1,13 @@
 body{
-  font-family: 'Inconsolata', monospace;
+/*font-family: 'Dosis', sans-serif;*/
+font-family: 'Inconsolata', monospace;
 }
 
+.nav-bar-custom{
+  font-size: 16px;
+  font-family: 'Roboto Mono', monospace;
+
+}
 
 /*#navbar-gap{
   margin-top: -5%;

@@ -2,11 +2,18 @@ var express = require('express')
 var router = express.Router()
 var Category = require('../models/category')
 var Product = require('../models/product')
+var passport = require('passport')
 var passportConfig = require('../config/passport')
 
 router.get('/adminlogin', function (req, res, next) {
   res.render('admin/adminlogin', {message: req.flash('success')})
 })
+
+router.post('/adminlogin', passport.authenticate('local-login', {
+  successRedirect: '/profile',
+  failureRedirect: '/login',
+  failureFlash: true
+}))
 
 router.get('/add-category', passportConfig.isAdmin, function (req, res, next) {
   res.render('admin/add-category', {message: req.flash('success')
