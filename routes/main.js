@@ -73,7 +73,7 @@ function paginate (req, res, next) {
 // get data from server: homepage
 router.get('/', function (req, res, next) {
   if (req.user) {
-    // paginate(req, res, next)
+    paginate(req, res, next)
   } else {
     res.render('main/home', {error: req.flash('errors') })
   }
