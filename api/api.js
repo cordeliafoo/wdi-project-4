@@ -6,14 +6,17 @@ var faker = require('faker')
 var Category = require('../models/category')
 var Product = require('../models/product')
 
+
+
 router.post('/search', function (req, res, next) {
-  console.log(req.body.search_term);
-  Product.search({
-    // search_term is the name of the input of the ajax search bar over in main.js
-    query_string: {query: req.body.search_term}
-  }, function (err, results) {
+  console.log(req.body.search_term)
+
+  Product
+  .find({name: {$regex: `.*${req.body.search_term}.*`, $options: '-i'}})
+  .populate('category')
+  .exec(function (err, data) {
     if (err) return next(err)
-    res.json(results)
+    res.json(data)
   })
 })
 

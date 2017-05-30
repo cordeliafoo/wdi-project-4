@@ -24,44 +24,44 @@ $(function () {
   var stripe = Stripe('pk_test_tQVIzlkk11fYH46kBkV7k502')
   var elements = stripe.elements()
 
-  // $('#search').keyup(function () {
-  //   var search_term = $(this).val()
-  //   $.ajax({
-  //     method: 'POST',
-  //     url: '/api/search',
-  //     data: {
-  //       search_term
-  //     },
-  //     dataType: 'json',
-  //     success: function (json) {
-  //       var data = json.hits.hits.map(function (hit) {
-  //         return hit
-  //       })
-  //       console.log(data)
-  //       $('#searchResults').empty()
-  //       for (var i = 0; i < data.length; i++) {
-  //         var html = ''
-  //         html += `<div class=col-md-4>`
-  //         html += `<a href = "product/${data[i]._id}">`
-  //         html += `<div class="thumbnail">`
-  //         html += `<img src= "${data[i]._source.image}">`
-  //         html += `<div class = "caption">`
-  //         html += `<h3>${data[i]._source.name}</h3>`
-  //         html += `<p>${data[i]._source.category.name}</p>`
-  //         html += `<p>$${data[i]._source.price}</p>`
-  //         html += `</div>`
-  //         html += `</div>`
-  //         html += `</a>`
-  //         html += `</div>`
-  //
-  //         $('#searchResults').append(html)
-  //       }
-  //     },
-  //     error: function (error) {
-  //       console.log(error)
-  //     }
-  //   })
-  // })
+  $('#search').keyup(function () {
+    var search_term = $(this).val()
+    $.ajax({
+      method: 'POST',
+      url: '/api/search',
+      data: {
+        search_term
+      },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        var data = data
+
+
+        $('#searchResults').empty()
+        for (var i = 0; i < data.length; i++) {
+          var html = ''
+          html += `<div class=col-md-4>`
+          html += `<a href = "product/${data[i]._id}">`
+          html += `<div class="thumbnail">`
+          html += `<img src= "${data[i].image}">`
+          html += `<div class = "caption">`
+          html += `<h3>${data[i].name}</h3>`
+          // html += `<p>${data[i].category.name}</p>`
+          html += `<p>$${data[i].price}</p>`
+          html += `</div>`
+          html += `</div>`
+          html += `</a>`
+          html += `</div>`
+
+          $('#searchResults').append(html)
+        }
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    })
+  })
 
   $(document).on('click', '#plus', function (e) {
     e.preventDefault()
@@ -116,7 +116,9 @@ $(function () {
   var card = elements.create('card', {style: style})
 
 // Add an instance of the card Element into the `card-element` <div>
-  card.mount('#card-element')
+  if ($('#card-element').length) {
+    card.mount('#card-element')
+  }
 
   card.addEventListener('change', function (event) {
     var displayError = document.getElementById('card-errors')
@@ -128,21 +130,23 @@ $(function () {
   })
 
   // Create a token or display an error when the form is submitted.
-  var form = document.getElementById('payment-form')
-  form.addEventListener('submit', function (event) {
-    event.preventDefault()
+  if ($('#payment-form').length) {
+    var form = document.getElementById('payment-form')
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
 
-    stripe.createToken(card).then(function (result) {
-      if (result.error) {
-      // Inform the user if there was an error
-        var errorElement = document.getElementById('card-errors')
-        errorElement.textContent = result.error.message
-      } else {
-      // Send the token to your server
-        stripeTokenHandler(result.token)
-      }
+      stripe.createToken(card).then(function (result) {
+        if (result.error) {
+          // Inform the user if there was an error
+          var errorElement = document.getElementById('card-errors')
+          errorElement.textContent = result.error.message
+        } else {
+          // Send the token to your server
+          stripeTokenHandler(result.token)
+        }
+      })
     })
-  })
+  }
 
   function stripeTokenHandler (token) {
   // Insert the token ID into the form so it gets submitted to the server

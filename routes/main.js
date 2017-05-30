@@ -10,27 +10,7 @@ var Product = require('../models/product')
 var Cart = require('../models/cart')
 var passportConfig = require('../config/passport')
 
-var bonsai_url = process.env.BONSAI_URL
-var elasticsearch = require('elasticsearch')
 
-var Product1 = new elasticsearch.Client({
-  host: bonsai_url,
-  log: 'trace'
-})
-
-// Test the connection...
-Product1.ping({
-  requestTimeout: 30000,
-  hello: 'elasticsearch'
-},
-  function (error) {
-    if (error) {
-      console.error('elasticsearch cluster is down!')
-    } else {
-      console.log('All is well')
-    }
-  }
-)
 
 // function to paginate mongoose query
 function paginate (req, res, next) {
@@ -55,16 +35,7 @@ function paginate (req, res, next) {
   })
 }
 
-// createMapping creates map between mongoLab and elasticSearch replica set
-// Product.createMapping(function (err, mapping) {
-//   if (err) {
-//     console.log('error creating mapping')
-//     console.log(err)
-//   } else {
-//     console.log('mapping created')
-//     console.log(mapping)
-//   }
-// })
+
 
 // ///////////////////////////// ROUTES BEGIN!///////////////////////////////////////////////
 
@@ -93,17 +64,17 @@ router.get('/search', function (req, res, next) {
   // /search?q=blahblahblah
   // req.query.q refers to blahblahblah
   if (req.query.q) {
-    Product1.search({
-      query_string: {query: req.query.q}
-    }, function (err, results) {
+
+    Product
+    .find({name: {$regex: `.*${req.query.q}.*`, $options: '-i'}})
+    .populate('category')
+    .exec(function (err, data) {
       if (err) return next(err)
-      var data = results.hits.hits.map(function (hit) {
-        return hit
-      })
       res.render('main/search-results', {
         query: req.query.q,
         data: data
       })
+      // res.send(data)
     })
   } else {
     res.redirect('/')
