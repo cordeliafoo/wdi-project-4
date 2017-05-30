@@ -38,7 +38,7 @@ function paginate (req, res, next) {
   var page = req.params.page
 
   Product
-  .find()
+  .find({})
   .skip(perPage * page)
   .limit(perPage)
   .populate('category')
