@@ -12,6 +12,7 @@ var passportConfig = require('../config/passport')
 
 var bonsai_url = process.env.BONSAI_URL
 var elasticsearch = require('elasticsearch')
+
 var Product = new elasticsearch.Client({
   host: bonsai_url,
   log: 'trace'
@@ -31,14 +32,13 @@ Product.ping({
   }
 )
 
-
 // function to paginate mongoose query
 function paginate (req, res, next) {
   var perPage = 9
   var page = req.params.page
 
   Product
-  .find({})
+  .find()
   .skip(perPage * page)
   .limit(perPage)
   .populate('category')
