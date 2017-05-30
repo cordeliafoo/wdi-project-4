@@ -57,15 +57,15 @@ function paginate (req, res, next) {
 
 
 // createMapping creates map between mongoLab and elasticSearch replica set
-// Product.createMapping(function (err, mapping) {
-//   if (err) {
-//     console.log('error creating mapping')
-//     console.log(err)
-//   } else {
-//     console.log('mapping created')
-//     console.log(mapping)
-//   }
-// })
+Product.createMapping(function (err, mapping) {
+  if (err) {
+    console.log('error creating mapping')
+    console.log(err)
+  } else {
+    console.log('mapping created')
+    console.log(mapping)
+  }
+})
 
 
 // ///////////////////////////// ROUTES BEGIN!///////////////////////////////////////////////
