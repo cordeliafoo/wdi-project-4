@@ -10,27 +10,27 @@ var Product = require('../models/product')
 var Cart = require('../models/cart')
 var passportConfig = require('../config/passport')
 
-// var bonsai_url = process.env.BONSAI_URL
-// var elasticsearch = require('elasticsearch')
-// var Product = new elasticsearch.Client({
-//   host: bonsai_url,
-//   log: 'trace'
-// })
-//
-// // Test the connection...
-// Product.ping({
-//   requestTimeout: 30000,
-//   hello: 'elasticsearch'
-// },
-//   function (error) {
-//     if (error) {
-//       console.error('elasticsearch cluster is down!')
-//     } else {
-//       console.log('All is well')
-//     }
-//   }
-// )
-//
+var bonsai_url = process.env.BONSAI_URL
+var elasticsearch = require('elasticsearch')
+var Product = new elasticsearch.Client({
+  host: bonsai_url,
+  log: 'trace'
+})
+
+// Test the connection...
+Product.ping({
+  requestTimeout: 30000,
+  hello: 'elasticsearch'
+},
+  function (error) {
+    if (error) {
+      console.error('elasticsearch cluster is down!')
+    } else {
+      console.log('All is well')
+    }
+  }
+)
+
 
 // function to paginate mongoose query
 function paginate (req, res, next) {
@@ -56,15 +56,15 @@ function paginate (req, res, next) {
 }
 
 // createMapping creates map between mongoLab and elasticSearch replica set
-Product.createMapping(function (err, mapping) {
-  if (err) {
-    console.log('error creating mapping')
-    console.log(err)
-  } else {
-    console.log('mapping created')
-    console.log(mapping)
-  }
-})
+// Product.createMapping(function (err, mapping) {
+//   if (err) {
+//     console.log('error creating mapping')
+//     console.log(err)
+//   } else {
+//     console.log('mapping created')
+//     console.log(mapping)
+//   }
+// })
 
 // ///////////////////////////// ROUTES BEGIN!///////////////////////////////////////////////
 
