@@ -72,7 +72,7 @@ Product.ping({
 router.get('/', function (req, res, next) {
   if (req.user) {
     // paginate(req, res, next)
-    Product.find({})
+    res.send('testing')
   } else {
     res.render('main/home', {error: req.flash('errors') })
   }
