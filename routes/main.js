@@ -33,27 +33,27 @@ Product.ping({
 )
 
 // function to paginate mongoose query
-function paginate (req, res, next) {
-  var perPage = 9
-  var page = req.params.page
-
-  Product
-  .find()
-  .skip(perPage * page)
-  .limit(perPage)
-  .populate('category')
-  .exec(function (err, products) {
-    if (err) return next(err)
-    Product.count().exec(function (err, count) {
-      if (err) return next(err)
-      res.render('main/product-main', {
-        products: products,
-        pages: count / perPage,
-        error: req.flash('errors')
-      })
-    })
-  })
-}
+// function paginate (req, res, next) {
+//   var perPage = 9
+//   var page = req.params.page
+//
+//   Product
+//   .find()
+//   .skip(perPage * page)
+//   .limit(perPage)
+//   .populate('category')
+//   .exec(function (err, products) {
+//     if (err) return next(err)
+//     Product.count().exec(function (err, count) {
+//       if (err) return next(err)
+//       res.render('main/product-main', {
+//         products: products,
+//         pages: count / perPage,
+//         error: req.flash('errors')
+//       })
+//     })
+//   })
+// }
 
 // createMapping creates map between mongoLab and elasticSearch replica set
 // Product.createMapping(function (err, mapping) {
@@ -78,9 +78,9 @@ router.get('/', function (req, res, next) {
   }
 })
 
-router.get('/page/:page', function (req, res, next) {
-  paginate(req, res, next)
-})
+// router.get('/page/:page', function (req, res, next) {
+//   paginate(req, res, next)
+// })
 
 // post data to server: search queries
 router.post('/search', function (req, res, next) {
