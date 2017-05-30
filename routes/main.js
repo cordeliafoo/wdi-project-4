@@ -55,7 +55,6 @@ function paginate (req, res, next) {
   })
 }
 
-
 // createMapping creates map between mongoLab and elasticSearch replica set
 // Product.createMapping(function (err, mapping) {
 //   if (err) {
@@ -67,13 +66,13 @@ function paginate (req, res, next) {
 //   }
 // })
 
-
 // ///////////////////////////// ROUTES BEGIN!///////////////////////////////////////////////
 
 // get data from server: homepage
 router.get('/', function (req, res, next) {
   if (req.user) {
-    paginate(req, res, next)
+    // paginate(req, res, next)
+    Product.find({})
   } else {
     res.render('main/home', {error: req.flash('errors') })
   }
