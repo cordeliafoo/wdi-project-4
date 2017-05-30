@@ -13,13 +13,13 @@ var passportConfig = require('../config/passport')
 var bonsai_url = process.env.BONSAI_URL
 var elasticsearch = require('elasticsearch')
 
-var Product = new elasticsearch.Client({
+var Product1 = new elasticsearch.Client({
   host: bonsai_url,
   log: 'trace'
 })
 
 // Test the connection...
-Product.ping({
+Product1.ping({
   requestTimeout: 30000,
   hello: 'elasticsearch'
 },
@@ -93,7 +93,7 @@ router.get('/search', function (req, res, next) {
   // /search?q=blahblahblah
   // req.query.q refers to blahblahblah
   if (req.query.q) {
-    Product.search({
+    Product1.search({
       query_string: {query: req.query.q}
     }, function (err, results) {
       if (err) return next(err)
