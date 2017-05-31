@@ -34,9 +34,8 @@ $(function () {
       },
       dataType: 'json',
       success: function (data) {
-        console.log(data);
+        console.log(data)
         var data = data
-
 
         $('#searchResults').empty()
         for (var i = 0; i < data.length; i++) {
@@ -163,4 +162,10 @@ $(function () {
   // Submit the form
     form.submit()
   }
+
+  // $(function () {
+  //   if ($.fn.cloudinary_fileupload !== undefined) {
+  //     $('input.cloudinary-fileupload[type=file]').cloudinary_fileupload()
+  //   }
+  // })
 }) // end of $(function(){ blahblah)

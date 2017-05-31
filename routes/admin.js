@@ -4,6 +4,7 @@ var Category = require('../models/category')
 var Product = require('../models/product')
 var passport = require('passport')
 var passportConfig = require('../config/passport')
+var cloudinary = require('cloudinary')
 
 router.get('/adminlogin', function (req, res, next) {
   res.render('admin/adminlogin', {message: req.flash('success')})
@@ -35,14 +36,16 @@ router.get('/add-product', passportConfig.isAdmin, function (req, res, next) {
 })
 
 router.post('/add-product', passportConfig.isAdmin, function (req, res, next) {
+  console.log(req.body);
   var product = new Product()
   Category.findOne({name: req.body.category}, function (err, category) {
-    if (err) return next(err)
+    if (err) console.log(err)
+    console.log(category)
     product.category = category._id
     product.category.name = category.name
     product.name = req.body.name
     product.price = req.body.price
-    product.image = req.body.image
+    product.image = req.body.imageURL
     product.save(function (err) {
       if (err) next(err)
       req.flash('success', 'Successfully added a product')

@@ -13,14 +13,14 @@ var flash = require('express-flash')
 // MongoStore library depends on session library
 var MongoStore = require('connect-mongo/es5')(session)
 var passport = require('passport')
-var deepPopulate = require('mongoose-deep-populate')(mongoose)
+
+var cloudinary = require('cloudinary')
 
 // require my own files
 var secret = require('./config/secret')
 var User = require('./models/user')
 var Category = require('./models/category')
 var cartLength = require('./middleware/middleware')
-
 
 var app = express()
 
@@ -32,6 +32,10 @@ mongoose.connect(secret.database, function (err) {
 
 // running middlewares (teach express how to use these modules)
 app.use(express.static(__dirname + '/public'))
+app.use('/blueimp', express.static(__dirname + '/node_modules/blueimp-file-upload/js/'))
+app.use('/cloudinary', express.static(__dirname + '/node_modules/cloudinary/'))
+app.use('/cloudinaryupload', express.static(__dirname + '/node_modules/cloudinary-jquery-file-upload/'))
+
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
