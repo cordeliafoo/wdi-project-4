@@ -74,7 +74,7 @@
         'l2g2tztk',
         { cloud_name: 'shirongfoo' }
       ).bind('cloudinarydone', function(e, data) {
-        $('.thumbnails').append(
+        $('.thumbnails').html(
           '<img src="'+ data.result.secure_url + '" height=" '+ 300 + '" height=" '+ 300 + '"/>'
         )
         $('.imageURL').val(data.result.secure_url)

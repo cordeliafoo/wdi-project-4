@@ -36,7 +36,14 @@ router.get('/add-product', passportConfig.isAdmin, function (req, res, next) {
 })
 
 router.post('/add-product', passportConfig.isAdmin, function (req, res, next) {
-  console.log(req.body);
+  console.log(req.body)
+  var imageURL
+  if (req.body.imageURL == '') {
+    imageURL = 'http://i.imgur.com/m04fRgc.jpg'
+  } else {
+    imageURL = req.body.imageURL
+  }
+  console.log('image url is now ' + req.body.imageURL)
   var product = new Product()
   Category.findOne({name: req.body.category}, function (err, category) {
     if (err) console.log(err)
@@ -45,7 +52,8 @@ router.post('/add-product', passportConfig.isAdmin, function (req, res, next) {
     product.category.name = category.name
     product.name = req.body.name
     product.price = req.body.price
-    product.image = req.body.imageURL
+    product.image = imageURL
+
     product.save(function (err) {
       if (err) next(err)
       req.flash('success', 'Successfully added a product')
