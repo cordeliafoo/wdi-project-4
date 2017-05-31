@@ -7,6 +7,6 @@ module.exports = {
     clientID: process.env.FACEBOOK_ID || '1882254075429114',
     clientSecret: process.env.FACEBOOK_SECRET || '8304a1718dfc43e097aa7e0d40beab33',
     profileFields: ['email', 'displayName'],
-    callbackURL: 'http://localhost:4000/auth/facebook/callback'
+    callbackURL: process.env.FACEBOOK_CALLBACK_URL || 'http://localhost:4000/auth/facebook/callback'
   }
 }

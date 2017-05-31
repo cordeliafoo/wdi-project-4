@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 var express = require('express')
 var morgan = require('morgan')
 var mongoose = require('mongoose')
@@ -82,3 +84,5 @@ app.listen(secret.port, function (err) {
   if (err) throw err
   console.log('server is running on port ' + secret.port)
 })
+
+console.log(process.env.FACEBOOK_ID)
