@@ -61,7 +61,7 @@ passport.use(new FacebookStrategy(secret.facebook, function (token, refreshToken
             callback(err, newUser)
           })
         },
-
+        // make a cart for user who signed in with facebook i.e. newUser
         function (newUser) {
           var cart = new Cart()
           cart.owner = newUser._id
@@ -84,6 +84,7 @@ exports.isAuthenticated = function (req, res, next) {
   res.redirect('/')
 }
 
+// custom function to validate user
 exports.isAdmin = function (req, res, next) {
     // if user is authenticated in the session, carry on
   if (req.isAuthenticated()) {

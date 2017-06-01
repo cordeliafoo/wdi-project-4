@@ -162,10 +162,4 @@ $(function () {
   // Submit the form
     form.submit()
   }
-
-  // $(function () {
-  //   if ($.fn.cloudinary_fileupload !== undefined) {
-  //     $('input.cloudinary-fileupload[type=file]').cloudinary_fileupload()
-  //   }
-  // })
 }) // end of $(function(){ blahblah)

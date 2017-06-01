@@ -2,20 +2,21 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 col-md-4">
-      <img class='img-circle img-responsive img-center' src='<%= user.profile.picture%>' alt= ''>
-      <br />
-      <p>Name: <%= user.profile.name %></p>
-      <p>Email: <%= user.email%></p>
+      <div class="col-sm-6 col-md-4">
+        <img class='img-circle img-responsive img-center' src='<%= user.profile.picture%>' alt= ''>
+        <br />
+        <p>Name: <%= user.profile.name %></p>
+        <p>Email: <%= user.email%></p>
 
-      <% if(user.address === '' || typeof user.address === 'undefined') { %>
-        <p>Address: <span style='color: #c0392b; font-weight: bold'>You have not saved an address</span></p>
-      <% } else { %>
-        <p>Address: <%= user.address %></p>
-      <% } %>
+          <% if(user.address === '' || typeof user.address === 'undefined') { %>
+            <p>Address: <span style='color: #c0392b; font-weight: bold'>You have not saved an address</span></p>
+          <% } else { %>
+            <p>Address: <%= user.address %></p>
+          <% } %>
 
-      <a href="/edit-profile" class='btn btn-primary btn-lg'>Edit Profile</a>
-    </div>
+          <a href="/edit-profile" class='btn btn-primary btn-lg'>Edit Profile</a>
+      </div>
+
     <div class="col-md-6">
       <h2 class='text'center>Damage Done</h2>
       <table class='table table-triped sticky-header'>
@@ -30,14 +31,10 @@
               <td><%= user.history[i].item.name%></td>
               <td><%= user.history[i].quantity%></td>
               <td>$<%= user.history[i].paid%></td>
-
             </tr>
           <% } %>
         </tbody>
-
       </table>
-
     </div>
   </div>
-
 </div>

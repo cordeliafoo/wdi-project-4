@@ -1,13 +1,12 @@
 var express = require('express')
 var router = express.Router()
-// async is a library that will help to manage callbacks
+// async is a library that will help to manage a series of callbacks
 var async = require('async')
 var faker = require('faker')
 var Category = require('../models/category')
 var Product = require('../models/product')
 
-
-
+// posting to /api/search: handling ajax call in public/js/pages.js
 router.post('/search', function (req, res, next) {
   console.log(req.body.search_term)
 
@@ -20,8 +19,7 @@ router.post('/search', function (req, res, next) {
   })
 })
 
-
-
+// handling get requests to /api/:name where :name is category name.  populates categories with seed data.
 router.get('/:name', function (req, res, next) {
   async.waterfall([
     function (callback) {
