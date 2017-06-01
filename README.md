@@ -83,4 +83,4 @@ Admin will be able to perform all functions a Logged In Member can.  Admin will 
 ### pagination mongoose query 
 
 ## Acknowledgements: 
-My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also Yisheng for patiently helping me troubleshoot all my bugs.
+My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
