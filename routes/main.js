@@ -113,8 +113,40 @@ router.get('/products/:id', function (req, res, next) {
   })
 })
 
+
+
+
 // get data from server: routes to show one product from category (params :id here refers to the category product belongs to)
 router.get('/product/:id', function (req, res, next) {
+  Product.findById({_id: req.params.id}, function (err, product) {
+    console.log('product is ' + product)
+    if (err) return next(err)
+    res.render('main/product', {
+      product: product
+    })
+  })
+})
+
+// get data from server: find cart of user that is logged in.
+router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
+  console.log(req.body)
+  Cart
+  .findOne({owner: req.user._id})
+  .populate({
+    path: 'items.item'
+  })
+  .exec(function (err, foundCart) {
+    console.log(foundCart)
+    res.render('main/cart', {
+      foundCart: foundCart,
+      message: req.flash('remove')
+    })
+  })
+})
+
+
+// get data from server: routes to show one product from category (params :id here refers to the category product belongs to)
+router.get('/page/product/:id', function (req, res, next) {
   Product.findById({_id: req.params.id}, function (err, product) {
     console.log('product is ' + product)
     if (err) return next(err)
