@@ -81,14 +81,25 @@ Admin will be able to perform all functions a Logged In Member can.  Admin will 
 
 ## Notable Areas:
 ### Cloudinary jQuery plugin for direct image uploading from browser
-This method of uploading images allows for images to be uploaded directly from a browser to cloud without going through my server.   
+Having tried the common way of uploading images from a web application to the cloud (a form in the application uploads an image to my server that in turn uploads the same image to the cloud), I wanted to try delivering images directly from the users' browser to the cloud without going through the intermediary server.  This approach is not only faster, but is simple to integrate with modern web browsers and includes many modern uploading UI elements such as drag & drop support and showing uploading progress.  
+
+According to the tutorial,  javascript files from certain node modules had to be accessed from within the HTML file. To accomplish this, the following middlewares had to be run in server.js:
+```
+app.use('/blueimp', express.static(__dirname + '/node_modules/blueimp-file-upload/js/'))
+app.use('/cloudinary', express.static(__dirname + '/node_modules/cloudinary/'))
+app.use('/cloudinaryupload', express.static(__dirname + '/node_modules/cloudinary-jquery-file-upload/'))
+```
+
 ### ajax search 
 ### pagination mongoose query 
 
 ## References:
 ### CSS Framework
 ### Others
-![Cloudinary Direct Browser Upload]http://cloudinary.com/blog/direct_upload_made_easy_from_browser_or_mobile_app_to_the_cloud
+Cloudinary Direct Browser Upload: 
+http://cloudinary.com/blog/direct_upload_made_easy_from_browser_or_mobile_app_to_the_cloud
+https://github.com/cloudinary/cloudinary_js
+
 
 ## Acknowledgements: 
 My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
