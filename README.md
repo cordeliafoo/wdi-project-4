@@ -80,9 +80,15 @@ Admin will be able to perform all functions a Logged In Member can.  Admin will 
 
 
 ## Notable Areas:
-### cloudinary direct unsigned uploading from browser 
+### Cloudinary jQuery plugin for direct image uploading from browser
+This method of uploading images allows for images to be uploaded directly from a browser to cloud without going through my server.   
 ### ajax search 
 ### pagination mongoose query 
+
+## References:
+### CSS Framework
+### Others
+![Cloudinary Direct Browser Upload]http://cloudinary.com/blog/direct_upload_made_easy_from_browser_or_mobile_app_to_the_cloud
 
 ## Acknowledgements: 
 My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
