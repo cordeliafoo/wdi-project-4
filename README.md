@@ -9,7 +9,7 @@ This full-stack app is built with node js, Express, MongoLab with Bootstrap as t
 
 ## Development
 ### Models
-I came up with 4 models altogether for this application.  User, Category, Product, and Cart.  My models are as follows: 
+I came up with 4 models altogether for this application - User, Category, Product, and Cart.  My models are as follows; using referencing to link them together: 
 
 ```
 var UserSchema = new mongoose.Schema({
@@ -58,3 +58,20 @@ var CartSchema = new Schema({
   }]
 })
 ```
+
+## User Flow:
+New users will be able to:
+- sign up as member and automatically be logged in
+- log in using their Facebook credentials
+
+Logged In Members are able to:
+- browse items
+- search for items using the search bars
+- add items/corresponding quantity to their cart
+- remove items from their cart
+- view their purchase history
+- checkout their cart and pay using stripe 
+
+Admin will be able to perform all functions a Logged In Member can.  Admin will also be able to:
+- add category
+- add/delete/update product 
