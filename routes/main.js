@@ -107,7 +107,8 @@ router.get('/products/:id', function (req, res, next) {
   .exec(function (err, products) {
     if (err) return next(err)
     res.render('main/category', {
-      products: products
+      products: products,
+      message: req.flash('success')
     })
   })
 })

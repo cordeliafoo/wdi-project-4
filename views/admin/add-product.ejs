@@ -72,9 +72,7 @@
       // })
       $('.upload_field').unsigned_cloudinary_upload(
         'l2g2tztk',
-        { cloud_name: 'shirongfoo',
-          height: '680',
-          width: '480'}
+        { cloud_name: 'shirongfoo'}
       ).bind('cloudinarydone', function(e, data) {
         $('.thumbnails').html(
           '<img src="'+ data.result.secure_url + '" height=" '+ 300 + '" height=" '+ 300 + '"/>'

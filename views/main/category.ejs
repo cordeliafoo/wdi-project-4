@@ -2,21 +2,37 @@
 <%/* products.length */%>
 <div class="container">
   <div class="row">
+    <% if (message.length > 0) { %>
+      <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismmiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+          <%= message %>
+      </div>
+    <% } %>
     <% if(products.length == 0){ %>
       <h4>Sorry no products found </h4>
       <% }  else {%>
         <% for(var i = 0; i < products.length; i ++){ %>
           <div class="col-md-4">
-          <a href='/product/<%=products[i]._id%>'>
-          <div class='thumbnail'>
-          <img src='<%=products[i].image %>'>
-          <div class='caption'>
-          <h3><%= products[i].name%></h3>
-          <p><%= products[i].category.name%></p>
-          <p>$<%= products[i].price%></p>
-          </div>
-          </div>
-          </a>
+            <a href='/product/<%=products[i]._id%>'>
+              <div class='thumbnail' style='height: 430px;'>
+                <img src='<%=products[i].image %>' style='height: 250px;'>
+                <div class='caption' style='height: 130px;'>
+                    <h3><%= products[i].name%></h3>
+                    <p><%= products[i].category.name%></p>
+                    <p>$<%= products[i].price%></p>
+                </div>
+
+                <% if(user && user.isAdmin) {%>
+                  <form method='post' action = '/remove-product'>
+                    <input type='hidden' name='remove' value="<%= products[i]._id %>"></input>
+                    <button class='pull-right btn btn-default'>Delete Item</button>
+                  </form>
+                <% } %>
+
+              </div>
+            </a>
           </div>
           <% } %>
       <% } %>

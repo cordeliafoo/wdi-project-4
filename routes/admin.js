@@ -62,4 +62,27 @@ router.post('/add-product', passportConfig.isAdmin, function (req, res, next) {
   })
 })
 
+// send data to server: remove product from site
+router.post('/remove-product', passportConfig.isAdmin, function (req, res, next) {
+  Product.findByIdAndRemove({_id: req.body.remove}, function (err, foundProduct) {
+    if (err) return next()
+    req.flash('success', 'Successfully deleted product')
+    res.redirect('back')
+  })
+})
+
+// get data from server: get form to edit product
+// router.get('/edit-product', passportConfig.isAdmin, function (req, res, next) {
+//   res.render('admin/edit-product')
+// })
+//
+// // send data to server: save edits to product to database
+// router.post('/edit-product', passportConfig.isAdmin, function (req, res, next) {
+//   Product.findByIdAndUpdate({_id: req.body.edit}, function (err, foundProduct) {
+//     if (err) return next()
+//     console.log('FOUND PRODUCT IS ', foundProduct);
+//     return res.redirect('/')
+//   })
+// })
+
 module.exports = router

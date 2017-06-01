@@ -5,20 +5,20 @@
     <div class="col-lg-9">
       <% if (message.length > 0) { %>
         <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismmiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-        <%= message %>
+            <button type="button" class="close" data-dismmiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <%= message %>
         </div>
-        <% } %>
+      <% } %>
 
         <% for (var i = 0; i < foundCart.items.length; i++) { %>
           <div class="list-group">
-          <span class="list-group-item">
-          <div class="row">
-          <div class="col-md-3">
-          <span><img class="product-image" src="<%= foundCart.items[i].item.image %>"></span>
-          </div>
+            <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-3">
+                  <span><img class="product-image" src="<%= foundCart.items[i].item.image %>"></span>
+              </div>
 
           <div class="col-md-6">
           <p class="list-group-item-heading"><%= foundCart.items[i].item.name %></p>
@@ -31,7 +31,7 @@
           <% /* hidden input field stores a default value */ %>
           <input type="hidden" name="item" value="<%= foundCart.items[i]._id %>">
           <input type="hidden" name="price" value="<%= foundCart.items[i].price %>">
-          <button type="submit" type="button">Remove</button>
+          <button type="submit" type="button" class='btn btn-default'>Remove</button>
           </form>
           </div>
 
@@ -68,8 +68,7 @@
 
               <div class="container">
                 <div class="row">
-                  <!-- You can make it whatever width you want. I'm making it full width
-                  on <= small devices and 4/12 page width on >= medium devices -->
+
                   <div class="col-xs-12 col-md-4">
 
                     <form action="/payment" method="post" id="payment-form">
