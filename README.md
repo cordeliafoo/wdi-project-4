@@ -75,3 +75,12 @@ Logged In Members are able to:
 Admin will be able to perform all functions a Logged In Member can.  Admin will also be able to:
 - add category
 - add/delete/update product 
+
+
+## Notable Areas:
+### cloudinary direct unsigned uploading from browser 
+### ajax search 
+### pagination mongoose query 
+
+## Acknowledgements: 
+My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also Yisheng for patiently helping me troubleshoot all my bugs.
