@@ -145,7 +145,7 @@ router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
 })
 
 
-// get data from server: routes to show one product from category (params :id here refers to the category product belongs to)
+// FOR PAGINATED PAGES!!! get data from server: routes to show one product from category (params :id here refers to the category product belongs to)
 router.get('/page/product/:id', function (req, res, next) {
   Product.findById({_id: req.params.id}, function (err, product) {
     console.log('product is ' + product)
@@ -175,6 +175,24 @@ router.get('/cart', passportConfig.isAuthenticated, function (req, res, next) {
 
 // post data to server: push product into user's cart
 router.post('/product/:product_id', passportConfig.isAuthenticated, function (req, res, next) {
+  Cart.findOne({owner: req.user._id}, function (err, cart) {
+    console.log(req.body)
+    cart.items.push({
+      item: req.body.product_id,
+      price: parseFloat(req.body.priceValue),
+      quantity: parseInt(req.body.quantity)
+    })
+    cart.total = (cart.total + parseFloat(req.body.priceValue)).toFixed(2)
+    cart.save(function (err) {
+      if (err) return next(err)
+      res.redirect('/cart')
+    })
+  })
+})
+
+
+// FOR PAGINATED PAGES!!! post data to server: push product into user's cart
+router.post('/page/product/:product_id', passportConfig.isAuthenticated, function (req, res, next) {
   Cart.findOne({owner: req.user._id}, function (err, cart) {
     console.log(req.body)
     cart.items.push({
