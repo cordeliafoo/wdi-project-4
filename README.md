@@ -10,7 +10,8 @@ This full-stack app is built with node js, Express, MongoLab with Bootstrap as t
 ## Development
 I came up with 4 models altogether for this application.  User, Category, Product, and Cart.  My models are as follows: 
 
-```var UserSchema = new mongoose.Schema({
+```
+var UserSchema = new mongoose.Schema({
   email: {type: String, unique: true, lowercase: true},
   password: {type: String},
   facebook: String,
