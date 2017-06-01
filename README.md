@@ -28,3 +28,32 @@ var UserSchema = new mongoose.Schema({
   }],
   isAdmin: {type: Boolean, default: false}
 })
+
+```
+
+```
+var CategorySchema = new Schema({
+  name: {type: String, unique: true, lowercase: true}
+})
+```
+
+```
+var ProductSchema = new Schema({
+  category: {type: Schema.Types.ObjectId, ref: 'Category'},
+  name: {type: String, required: true},
+  price: {type: Number, required: true},
+  image: String
+})
+```
+
+``` 
+var CartSchema = new Schema({
+  owner: {type: Schema.Types.ObjectId, ref: 'User'},
+  total: {type: Number, default: 0},
+  items: [{
+    item: {type: Schema.Types.ObjectId, ref: 'Product'},
+    quantity: {type: Number, default: 1},
+    price: {type: Number, default: 0}
+  }]
+})
+```
