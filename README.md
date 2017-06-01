@@ -8,6 +8,7 @@ This full-stack app is built with node js, Express, MongoLab with Bootstrap as t
 ![shopppit](https://github.com/shirongfoo/wdi-project-4/blob/master/shoppit1%20(3).gif)
 
 ## Development
+### Models
 I came up with 4 models altogether for this application.  User, Category, Product, and Cart.  My models are as follows: 
 
 ```
