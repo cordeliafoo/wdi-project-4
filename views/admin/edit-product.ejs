@@ -1,0 +1,41 @@
+<% layout('layout') -%>
+<%/*  foundProduct*/ %>
+
+
+
+<div class="row">
+  <div class="col-lg-6 col-md-offset-3">
+    <div class="row">
+      <form method="post" class='upload_form'>
+        <h1>Edit Product</h1>
+        <div class="form-group">
+                  <label for="name">Name</label>
+                      <input type="text" name="name" class='form-control' value = '<%= foundProduct.name%>'/>
+                  <br>
+                      <%/* if name = 'name'; over in req.body it will be req.body.name */%>
+
+                  <label for="">Current Category: <%= foundProduct.category.name%></label>
+                  <br>
+
+                  <label for="category">Update Category:</label>
+                        <select class="form-control" id="category" name = 'category'>
+                            <% for(var i = 0; i < categories.length; i++) { %>
+                              <option value = <%= categories[i]._id %>><%= categories[i].name %></option>
+                            <% } %>
+                        </select>
+                  <br>
+
+                  <label for="price">Price</label>
+                    <input type="text" name="price" class='form-control' value= '<%= foundProduct.price %>'>
+                  <br>
+
+                  <label for="image">Image</label>
+                    <input type="text" name="image" value = <%=foundProduct.image %> ></input>
+                  <br>
+
+                </br>
+                  <button type="submit" name="submit" class='btn btn-success'>Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -10,9 +10,8 @@ var Product = require('../models/product')
 var Cart = require('../models/cart')
 var passportConfig = require('../config/passport')
 
-
-
-// function to paginate mongoose query
+// function to paginate mongoose query that finds ALL products
+// https://stackoverflow.com/questions/5539955/how-to-paginate-with-mongoose-in-node-js
 function paginate (req, res, next) {
   var perPage = 9
   var page = req.params.page
@@ -35,8 +34,6 @@ function paginate (req, res, next) {
   })
 }
 
-
-
 // ///////////////////////////// ROUTES BEGIN!///////////////////////////////////////////////
 
 // get data from server: homepage
@@ -45,7 +42,9 @@ router.get('/', function (req, res, next) {
     paginate(req, res, next)
     // res.send('testing')
   } else {
-    res.render('main/home', {error: req.flash('errors') })
+    res.render('main/home', {
+      error: req.flash('errors'),
+      message: req.flash('success')})
   }
 })
 
@@ -64,8 +63,9 @@ router.get('/search', function (req, res, next) {
   // /search?q=blahblahblah
   // req.query.q refers to blahblahblah
   if (req.query.q) {
-
     Product
+    // use regex to match anything that contains search
+    // $options: -i makes search case insensitive
     .find({name: {$regex: `.*${req.query.q}.*`, $options: '-i'}})
     .populate('category')
     .exec(function (err, data) {
@@ -85,7 +85,7 @@ router.get('/search', function (req, res, next) {
 router.get('/products/:id', function (req, res, next) {
   Product
   .find({category: req.params.id})
-  // we can use populate because data type of Product is ObjectId
+  // can use populate because data type of Product is ObjectId
   .populate('category')
   // can now do products.category.name after calling populate
   // {category: 123123,
@@ -183,7 +183,7 @@ router.post('/payment', passportConfig.isAuthenticated, function (req, res, next
   }).then(function (customer) {
     return stripe.charges.create({
       amount: currentCharges,
-      currency: 'usd',
+      currency: 'sgd',
       customer: customer.id
     })
   }).then(function (charge) {
@@ -207,7 +207,6 @@ router.post('/payment', passportConfig.isAuthenticated, function (req, res, next
                 paid: cart.items[i].price
               })
             }
-
             user.save(function (err, user) {
               if (err) return next(err)
               callback(err, user)

@@ -58,7 +58,7 @@ router.post('/signup', function (req, res, next) {
       cart.owner = user._id
       cart.save(function (err) {
         if (err) return next(err)
-        // login user straight after he signs up
+        // use req.logIn to login user straight after he signs up
         req.logIn(user, function (err) {
           if (err) return next(err)
           res.redirect('/profile')

@@ -1,8 +1,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-
-
 var CartSchema = new Schema({
   owner: {type: Schema.Types.ObjectId, ref: 'User'},
   total: {type: Number, default: 0},
@@ -12,6 +10,5 @@ var CartSchema = new Schema({
     price: {type: Number, default: 0}
   }]
 })
-
 
 module.exports = mongoose.model('Cart', CartSchema)

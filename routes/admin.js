@@ -4,17 +4,6 @@ var Category = require('../models/category')
 var Product = require('../models/product')
 var passport = require('passport')
 var passportConfig = require('../config/passport')
-var cloudinary = require('cloudinary')
-
-router.get('/adminlogin', function (req, res, next) {
-  res.render('admin/adminlogin', {message: req.flash('success')})
-})
-
-router.post('/adminlogin', passport.authenticate('local-login', {
-  successRedirect: '/profile',
-  failureRedirect: '/login',
-  failureFlash: true
-}))
 
 router.get('/add-category', passportConfig.isAdmin, function (req, res, next) {
   res.render('admin/add-category', {message: req.flash('success')
@@ -71,18 +60,33 @@ router.post('/remove-product', passportConfig.isAdmin, function (req, res, next)
   })
 })
 
-// get data from server: get form to edit product
-// router.get('/edit-product', passportConfig.isAdmin, function (req, res, next) {
-//   res.render('admin/edit-product')
-// })
-//
-// // send data to server: save edits to product to database
-// router.post('/edit-product', passportConfig.isAdmin, function (req, res, next) {
-//   Product.findByIdAndUpdate({_id: req.body.edit}, function (err, foundProduct) {
-//     if (err) return next()
-//     console.log('FOUND PRODUCT IS ', foundProduct);
-//     return res.redirect('/')
-//   })
-// })
+// get data from server: get form to edit particular product
+router.get('/edit-product/:id', passportConfig.isAdmin, function (req, res, next) {
+  Product
+  .findOne({_id: req.params.id})
+  .populate('category')
+  .exec(function (err, foundProduct) {
+    if (err) return next(err)
+    res.render('admin/edit-product', {foundProduct: foundProduct})
+  })
+})
+
+// send data to server: save edits to product to database
+router.post('/edit-product/:id', passportConfig.isAdmin, function (req, res, next) {
+  Product.findOne({_id: req.params.id}, function (err, foundProduct) {
+    console.log('found product is ', foundProduct)
+    if (err) return next(err)
+    if (req.body.name) foundProduct.name = req.body.name
+    if (req.body.price) foundProduct.price = req.body.price
+    if (req.body.category) foundProduct.category = req.body.category
+    if (req.body.image) foundProduct.image = req.body.image
+
+    foundProduct.save(function (err) {
+      if (err) return next(err)
+      req.flash('success', 'Successfully edited product')
+      return res.redirect('/')
+    })
+  })
+})
 
 module.exports = router

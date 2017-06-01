@@ -46,9 +46,12 @@ UserSchema.methods.comparePassword = function (password) {
 }
 
 UserSchema.methods.gravatar = function (size) {
-  if (!this.size) size = 200
-  if (!this.email) return 'https://gravatar.com/avatar/?s' + size + '&d=retro'
+  // if (!this.size) size = 200
+  // if (!this.email) return 'https://gravatar.com/avatar/?s' + size + '&d=retro'
+  var size = 200
+  // Use crypto module to create a MD5 hash to get profile images from gravatar
   var md5 = crypto.createHash('md5').update(this.email).digest('hex')
+  // want to generate this url: "https://gravatar.com/avatar/%{hash}?s=%{size}&d=retro"
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro'
 }
 
