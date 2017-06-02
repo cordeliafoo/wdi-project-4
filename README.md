@@ -97,11 +97,6 @@ Over in the add-products ejs file:
 <script src="cloudinaryupload/cloudinary-jquery-file-upload.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    // $('.upload_form').append(
-    //   $.cloudinary.unsigned_upload_tag('l2g2tztk', {cloud_name: 'shirongfoo'})
-    // ).bind('cloudinarydone', function(e, data){
-    //   console.log('uploaded')
-    // })
     $('.upload_field').unsigned_cloudinary_upload(
       'l2g2tztk',
       { cloud_name: 'shirongfoo'}
