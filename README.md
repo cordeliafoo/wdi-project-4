@@ -240,4 +240,4 @@ Pagination in Mongoose:
 - Allow users to chat to admin should they need help using websockets.
 
 ## Acknowledgements: 
-My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
+My WDI9 classmates who have rendered help in all ways possible! Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
