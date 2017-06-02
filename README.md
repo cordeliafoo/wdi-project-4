@@ -180,6 +180,48 @@ router.post('/search', function (req, res, next) {
 })
 ```
 
+### Async Waterfall
+I used async.waterfall in several places to allow each function to pass its results into the next function, and allow for the main callback to only receive the result of the last function.  For example, prior to making a new cart for a user who has just signed up, the user should first be created, and the created user passed into the next function that creates the cart for him.
+
+```
+router.post('/signup', function (req, res, next) {
+  async.waterfall([
+    function (callback) {
+      var user = new User()
+      user.profile.name = req.body.name
+      user.password = req.body.password
+      user.email = req.body.email
+      user.profile.picture = user.gravatar()
+
+      User.findOne({email: req.body.email}, function (err, existingUser) {
+        if (existingUser) {
+          req.flash('errors', 'Account with that email address already exists')
+          return res.redirect('/signup')
+        } else {
+          user.save(function (err, user) {
+            if (err) return next(err)
+            callback(null, user)
+          })
+        }
+      })
+    },
+    function (user) {
+      var cart = new Cart()
+      cart.owner = user._id
+      cart.save(function (err) {
+        if (err) return next(err)
+        // use req.logIn to login user straight after he signs up
+        req.logIn(user, function (err) {
+          if (err) return next(err)
+          res.redirect('/profile')
+        })
+      })
+    }
+
+  ])
+})
+
+```
 ## References:
 ### CSS Framework
 - http://getbootstrap.com/css/
@@ -192,7 +234,10 @@ Cloudinary Direct Browser Upload:
 Pagination in Mongoose:
 - http://madhums.me/2012/08/20/pagination-using-mongoose-express-and-jade/
 
-
+### Further Developoments 
+- More filters for the products 
+- Finish the drag-and-drop feature for editing product images
+- Allow users to chat to admin should they need help using websockets.
 
 ## Acknowledgements: 
 My truly amazing WDI9 classmates who have rendered help in all ways possible. Also thanks especially to Prima and Sharona for battling through the cloudinary direct upload with me; and also to Yisheng for patiently helping me troubleshoot through all my bugs.
