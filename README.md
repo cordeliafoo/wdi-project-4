@@ -98,8 +98,8 @@ Over in the add-products ejs file:
 
 <script type="text/javascript">
     $('.upload_field').unsigned_cloudinary_upload(
-      'l2g2tztk',
-      { cloud_name: 'shirongfoo'}
+      '<name from cloudinary when you enable unsigned uploading>',
+      { cloud_name: '<my cloudinary cloud name>'}
     ).bind('cloudinarydone', function(e, data) {
       $('.thumbnails').html(
         '<img src="'+ data.result.secure_url + '" height=" '+ 300 + '" height=" '+ 300 + '"/>'
