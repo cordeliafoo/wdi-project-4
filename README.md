@@ -86,19 +86,117 @@ Having tried the common way of uploading images from a web application to the cl
 According to the tutorial,  javascript files from certain node modules had to be accessed from within the HTML file. To accomplish this, the following middlewares had to be run in server.js:
 ```
 app.use('/blueimp', express.static(__dirname + '/node_modules/blueimp-file-upload/js/'))
-app.use('/cloudinary', express.static(__dirname + '/node_modules/cloudinary/'))
 app.use('/cloudinaryupload', express.static(__dirname + '/node_modules/cloudinary-jquery-file-upload/'))
 ```
 
-### ajax search 
-### pagination mongoose query 
+Over in the add-products ejs file:
+```
+<script src="blueimp/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="blueimp/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="blueimp/jquery.fileupload.js" type="text/javascript"></script>
+<script src="cloudinaryupload/cloudinary-jquery-file-upload.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    // $('.upload_form').append(
+    //   $.cloudinary.unsigned_upload_tag('l2g2tztk', {cloud_name: 'shirongfoo'})
+    // ).bind('cloudinarydone', function(e, data){
+    //   console.log('uploaded')
+    // })
+    $('.upload_field').unsigned_cloudinary_upload(
+      'l2g2tztk',
+      { cloud_name: 'shirongfoo'}
+    ).bind('cloudinarydone', function(e, data) {
+      $('.thumbnails').html(
+        '<img src="'+ data.result.secure_url + '" height=" '+ 300 + '" height=" '+ 300 + '"/>'
+      )
+      $('.imageURL').val(data.result.secure_url)
+      // $('.thumbnails').append($.cloudinary.image(data.result.public_id,
+      //     {
+      //       format: 'jpg',
+      //       width: 150,
+      //       height: 100,
+      //       crop: 'thumb',
+      //       gravity: 'face',
+      //       effect: 'saturation:50'
+      //     }
+      //   )
+      // )
+    }).bind('cloudinaryprogress', function(e, data) {
+      $('.progress').css('visibility', 'visible')
+      $('.progress-bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+    });
+</script>
+```
+
+### Searchbar with Ajax 
+
+```
+$('#search').keyup(function () {
+    var search_term = $(this).val()
+    $.ajax({
+      method: 'POST',
+      url: '/api/search',
+      data: {
+        search_term
+      },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data)
+        var data = data
+
+        $('#searchResults').empty()
+        for (var i = 0; i < data.length; i++) {
+          var html = ''
+          html += `<div class=col-md-4>`
+          html += `<a href = "product/${data[i]._id}">`
+          html += `<div class="thumbnail">`
+          html += `<img src= "${data[i].image}">`
+          html += `<div class = "caption">`
+          html += `<h3>${data[i].name}</h3>`
+          // html += `<p>${data[i].category.name}</p>`
+          html += `<p>$${data[i].price}</p>`
+          html += `</div>`
+          html += `</div>`
+          html += `</a>`
+          html += `</div>`
+
+          $('#searchResults').append(html)
+        }
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    })
+  })
+
+```
+
+```
+// posting to /api/search: handling ajax call in public/js/pages.js
+router.post('/search', function (req, res, next) {
+
+  Product
+  .find({name: {$regex: `.*${req.body.search_term}.*`, $options: '-i'}})
+  .populate('category')
+  .exec(function (err, data) {
+    if (err) return next(err)
+    res.json(data)
+  })
+})
+```
 
 ## References:
 ### CSS Framework
+- http://getbootstrap.com/css/
+
 ### Others
 Cloudinary Direct Browser Upload: 
-http://cloudinary.com/blog/direct_upload_made_easy_from_browser_or_mobile_app_to_the_cloud
-https://github.com/cloudinary/cloudinary_js
+- http://cloudinary.com/blog/direct_upload_made_easy_from_browser_or_mobile_app_to_the_cloud
+- https://github.com/cloudinary/cloudinary_js
+
+Pagination in Mongoose:
+- http://madhums.me/2012/08/20/pagination-using-mongoose-express-and-jade/
+
 
 
 ## Acknowledgements: 
